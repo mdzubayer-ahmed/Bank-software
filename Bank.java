@@ -1,64 +1,74 @@
+
 /**
- * Bank Class maintains Bank name, Account name, account numbers,and display all/specific user details
+ * The Bank class.
  *
- * @author Md. Zubayer Ahmed
- * @version 2023-11-16
+ * @author (Xianta Jiang)
+ * @version (V1)
  */
 import java.util.ArrayList;
-
-public class Bank {
+import java.util.stream.Collectors;
+public class Bank
+{
+    // instance variables
     private String bankName;
-    private ArrayList<Account> accounts;
-
-    // Constructor-1
-    public Bank() {
-        accounts = new ArrayList<>();
+    private ArrayList<Account> accounts; 
+    /**
+     * Constructor for objects of class Bank
+     */
+    public Bank()
+    {
+        accounts = new ArrayList<Account>();
     }
-
-    // Constructor-2
-    public Bank(String bankName) {
-        this.bankName = bankName;
-        accounts = new ArrayList<>();
+    public Bank(String name)
+    {
+        this();
+        bankName = name;
     }
-
-    // Add account
-    public void add(Account a) {
+    /**
+     * Add account (saving or chequing) to accounts list
+     */
+    public void add(Account a)
+    {
         accounts.add(a);
     }
-
-    // Display full list of accounts
-    public void display() {
-        System.out.println("Bank Name: " + bankName);
-        System.out.println("Accounts:");
-        for (Account account : accounts) {
-            System.out.println("User Name: " + account.getUserName());
-            System.out.println("Balance: $" + account.getBalance());
-            if (account instanceof Saving) {
-                System.out.println("Account Type: Saving");
-            } 
-            else if (account instanceof Cheque) {
-                System.out.println("Account Type: Cheque");
-            }
-            System.out.println("------------");
-        }
+	
+    public ArrayList<Account> getAccounts(){
+        return accounts;
+    }
+	
+    public ArrayList<Account> getAccounts(String user){
+        return new ArrayList<Account>(accounts.stream().
+            filter(acc->user.equals(acc.getUsername())).
+            collect(Collectors.toList()));
     }
 
-    // Display account list and details of specific user
-    public void display(String userName) {
-        System.out.println("Bank Name: " + bankName);
-        System.out.println("Accounts for user: " + userName);
-        for (Account account : accounts) {
-            if (account.getUserName().equals(userName)) {
-                System.out.println("User Name: " + account.getUserName());
-                System.out.println("Balance: $" + account.getBalance());
-                if (account instanceof Saving) {
-                    System.out.println("Account Type: Saving");
-                } 
-                else if (account instanceof Cheque) {
-                    System.out.println("Account Type: Cheque");
-                }
-                System.out.println("------------");
-            }
-        }
+    public String getBankName(){
+        return bankName;
+    }
+
+    /**
+     * Display the bank information and all accounts
+     */
+    public void display()
+    {
+        // Display the bank information and the full list of accounts
+        System.out.println("Bank name: "+bankName);
+        accounts.forEach(acc->{
+            System.out.println(acc.getClass().getName() + acc.getUsername()+", Balance: "+acc.getBalance());
+        });
+    }
+    
+    /**
+     * Display the bank information and accounts per user name
+     */
+    public void display(String user)
+    {
+        // Display the bank information and the list of accounts per user
+        System.out.println("Bank name: "+bankName+ " for "+user);
+        accounts.stream()
+        .filter(acc -> acc.getUsername().equals(user))
+        .forEach(acc->{
+            System.out.println(acc.getClass().getName() + acc.getUsername()+", Balance: "+acc.getBalance());
+        });
     }
 }

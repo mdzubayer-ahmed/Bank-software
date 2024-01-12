@@ -1,36 +1,41 @@
+
 /**
- * Cheque Class maintains the withdrwal from Chequing Account
+ * Chequing account class.
  *
- * @author Md. Zubayer Ahmed
- * @version 2023-11-16
+ * @author (Xianta Jiang)
+ * @version (V1)
  */
-public class Cheque extends Account {
-    private static final double minBalance = 1000;
-    private static final double overLimitCharge = 5;
-
-    // Constructors
-    public Cheque() {
-        super();
+public class Cheque extends Account
+{
+    // instance variables 
+    private static final float minimBalance = 1000;
+    private static final float overLimitCharge = 5;
+    /**
+     * Constructor for objects of class Cheque
+     */
+    public Cheque()
+    {
+        // initialise instance variables
+        
     }
-
-    public Cheque(String userName) {
-        super(userName);
+    public Cheque(String user)
+    {
+        super(user);
+        
     }
-
-    // Chequing account withdrawal
-    public void withdraw(double amount) {
-        double withdrawLimit = balance - minBalance;
-        if (withdrawLimit >= amount) {
-            balance -= amount;
-            System.out.println("$" + amount + " withdrawn. No fees Charged. Remaining Balance " + balance);
-        } 
-        else {
-            System.out.println("Insufficient funds!");
-            if (balance < minBalance) {
-                System.out.println("Applying over-limit charge: $" + overLimitCharge);
-                balance -= overLimitCharge;
-            }
-            System.out.println("Failed to withdraw. Current balance: $" + balance);
-        }
+    /**
+     * Withdraw amount of money
+     *
+     * @param  m - the amount to withdraw
+     */
+    public void withdraw(float m)
+    {
+        // 
+        if (balance < m)
+        { System.out.println("The balance is insufficient!");return;}
+        if (balance < minimBalance)
+            balance = balance -m -overLimitCharge;
+        else
+            balance = balance -m;
     }
 }
